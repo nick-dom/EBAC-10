@@ -1,0 +1,15 @@
+@use 'variaveis' as *;
+// Mixins reutilizáveis
+@mixin container{
+ max-width:75rem;
+ margin:0 auto;
+ padding:0 calc($espaco/2);
+}
+@mixin botao($bg){
+ background:$bg;
+ color:white;
+ border:none;
+ border-radius:$raio;
+ padding:calc($espaco/2) $espaco;
+ cursor:pointer;
+}

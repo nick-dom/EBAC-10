@@ -1,0 +1,875 @@
+@use 'variaveis';
+@use 'mixins';
+@use 'base';
+@use 'layout';
+@use 'componentes';
+
+/* CSS original do projeto abaixo */
+/* ============================================================
+   AGÊNCIA CRIATIVA WEB — styles.css
+   Refatoração M12: organização em camadas (tokens > base >
+   componentes reutilizáveis > seções > estados JS > responsivo),
+   nomenclatura BEM (.bloco__elemento--modificador) e baixa
+   especificidade (sem IDs, sem !important, sem seletores profundos
+   entre blocos diferentes).
+   ============================================================ */
+
+
+/* ============================================================
+   1. TOKENS (variáveis de design)
+   Toda cor, fonte, espaçamento e raio usados no site partem
+   daqui — evita valores "mágicos" espalhados e repetidos.
+   ============================================================ */
+:root {
+  /* Cores — identidade "prancheta de design" */
+  --cor-papel: #F2F0EA;
+  --cor-papel-alt: #E7E4DC;
+  --cor-tinta: #17171D;
+  --cor-tinta-suave: #4B4B55;
+  --cor-violeta: #4A3AFF;
+  --cor-coral: #FF5B39;
+  --cor-amarelo: #FFC93C;
+  --cor-sucesso: #1B8A4A;
+  --cor-borda: rgba(23, 23, 29, 0.12);
+
+  /* Tipografia */
+  --fonte-display: 'Bricolage Grotesque', 'Arial Black', sans-serif;
+  --fonte-texto: 'Inter', system-ui, sans-serif;
+  --fonte-mono: 'Space Mono', 'Courier New', monospace;
+
+  /* Espaçamentos (unidades relativas rem) */
+  --espaco-xs: 0.5rem;
+  --espaco-sm: 1rem;
+  --espaco-md: 2rem;
+  --espaco-lg: 4rem;
+  --espaco-xl: 7rem;
+
+  /* Raios de borda */
+  --raio-sm: 0.6rem;
+  --raio-md: 0.75rem;
+  --raio-lg: 1rem;
+  --raio-pill: 3rem;
+
+  /* Sombras */
+  --sombra-cartao: 0 1rem 2rem rgba(23, 23, 29, 0.08);
+  --sombra-menu: -0.5rem 0 2rem rgba(0, 0, 0, 0.1);
+
+  /* Largura máxima do conteúdo */
+  --largura-max: 75rem;
+}
+
+
+/* ============================================================
+   2. BASE (reset + estilos de elementos HTML puros)
+   Camada global aplicada a tags, sem classes — é a única parte
+   do arquivo que usa seletores de elemento de propósito geral.
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%; /* 1rem = 16px como base de toda a escala tipográfica */
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fonte-texto);
+  color: var(--cor-tinta);
+  background: var(--cor-papel);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+h1, h2, h3 {
+  font-family: var(--fonte-display);
+  line-height: 1.1;
+}
+
+
+/* ============================================================
+   3. LAYOUT / UTILITÁRIOS
+   Classes de apoio reutilizadas em qualquer seção.
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+}
+
+/* Régua decorativa no topo — elemento assinatura da identidade visual */
+.regua {
+  width: 100%;
+  height: 0.5rem;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--cor-tinta) 0,
+    var(--cor-tinta) 1px,
+    transparent 1px,
+    transparent 1.5vw
+  );
+  background-color: var(--cor-amarelo);
+}
+
+
+/* ============================================================
+   4. COMPONENTES REUTILIZÁVEIS
+   Blocos BEM usados em mais de uma seção do site. Ficam juntos
+   para deixar claro que são um "design system" compartilhado,
+   evitando redefinir a mesma aparência em vários lugares.
+   ============================================================ */
+
+/* ---- Etiqueta (selo de texto pequeno em maiúsculas) ---- */
+.etiqueta {
+  display: inline-block;
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cor-violeta);
+  border: 1px solid currentColor;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--raio-pill);
+}
+
+.etiqueta--escura {
+  color: var(--cor-tinta-suave);
+}
+
+/* Modificador para uso sobre fundos escuros (ex.: seção Depoimentos) */
+.etiqueta--inversa {
+  color: var(--cor-amarelo);
+}
+
+/* ---- Título de seção ---- */
+.titulo-secao {
+  font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+  margin: var(--espaco-xs) 0 var(--espaco-md);
+  max-width: 30ch;
+}
+
+.titulo-secao--clara {
+  color: var(--cor-papel);
+}
+
+/* ---- Botão ---- */
+.botao {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.9em 1.8em;
+  border-radius: var(--raio-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.botao--primario {
+  background: var(--cor-tinta);
+  color: var(--cor-papel);
+}
+
+.botao--primario:hover {
+  background: var(--cor-violeta);
+  transform: translateY(-2px);
+}
+
+.botao--secundario {
+  background: transparent;
+  color: var(--cor-tinta);
+  border-color: var(--cor-tinta);
+}
+
+.botao--secundario:hover {
+  background: var(--cor-tinta);
+  color: var(--cor-papel);
+}
+
+/* Modificador usado apenas no botão de envio do formulário de contato,
+   substituindo o antigo seletor profundo ".contato__formulario .botao" */
+.botao--formulario {
+  justify-self: start;
+}
+
+/* ---- Cartão: componente compartilhado por Sobre (valores),
+   Serviços (cards) e Depoimentos (citações). Reúne num único
+   bloco BEM tudo o que os três tinham em comum, e usa
+   modificadores só para o que realmente muda entre eles. ---- */
+.cartao {
+  border-radius: var(--raio-lg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.cartao__titulo {
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+}
+
+.cartao__texto {
+  font-size: 0.92rem;
+  color: var(--cor-tinta-suave);
+}
+
+.cartao__icone {
+  line-height: 1;
+}
+
+/* Variante usada nos cards de "valores" (seção Sobre nós) */
+.cartao--valor {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-sm);
+  padding: var(--espaco-sm);
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-papel-alt);
+}
+
+.cartao__icone--valor {
+  font-size: 1.5rem;
+  color: var(--cor-coral);
+}
+
+/* Variante usada nos cards de "serviços" */
+.cartao--servico {
+  position: relative;
+  padding: var(--espaco-md);
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-papel);
+}
+
+.cartao--servico:hover {
+  transform: translateY(-0.4rem);
+  border-color: var(--cor-violeta);
+  box-shadow: var(--sombra-cartao);
+}
+
+.cartao__numero {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  color: var(--cor-tinta-suave);
+  opacity: 0.6;
+}
+
+.cartao__icone--servico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--raio-md);
+  background: var(--cor-violeta);
+  color: var(--cor-papel);
+  font-size: 1.4rem;
+  margin-bottom: var(--espaco-sm);
+}
+
+/* Variante usada nas citações de "depoimentos" (fundo escuro) */
+.cartao--depoimento {
+  flex: 1 1 18rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--espaco-md);
+  background: rgba(242, 240, 234, 0.06);
+  border: 1px solid rgba(242, 240, 234, 0.14);
+}
+
+.cartao--depoimento .cartao__texto {
+  font-size: 1rem;
+  margin-bottom: var(--espaco-md);
+  color: rgba(242, 240, 234, 0.9);
+}
+
+.cartao__rodape {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.cartao__foto {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--cor-amarelo);
+}
+
+.cartao__nome {
+  display: block;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.cartao__cargo {
+  font-size: 0.82rem;
+  color: rgba(242, 240, 234, 0.65);
+}
+
+/* ---- Campo de formulário ---- */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.campo--largo {
+  grid-column: 1 / -1;
+}
+
+.campo__rotulo {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.campo__entrada {
+  font-family: var(--fonte-texto);
+  font-size: 1rem;
+  padding: 0.85em 1em;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  background: var(--cor-papel-alt);
+  color: var(--cor-tinta);
+  resize: vertical;
+}
+
+.campo__entrada:focus {
+  outline: 2px solid var(--cor-violeta);
+  outline-offset: 1px;
+}
+
+.campo__entrada--invalido {
+  border-color: var(--cor-coral);
+}
+
+.campo__contador {
+  float: right;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--cor-tinta-suave);
+}
+
+.campo__erro {
+  min-height: 1.1em;
+  font-size: 0.78rem;
+  color: var(--cor-coral);
+}
+
+
+/* ============================================================
+   5. CABEÇALHO E NAVEGAÇÃO (Flexbox)
+   ============================================================ */
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--cor-papel);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.cabecalho__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4.5rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logo__marca {
+  font-family: var(--fonte-mono);
+  font-weight: 700;
+  background: var(--cor-tinta);
+  color: var(--cor-papel);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.logo__nome {
+  font-family: var(--fonte-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+/* Modificador aplicado apenas na marca do rodapé, onde o fundo é escuro */
+.logo__nome--rodape {
+  color: var(--cor-papel);
+}
+
+.nav__lista {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+}
+
+.nav__link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav__link:hover {
+  color: var(--cor-violeta);
+}
+
+.nav__link--cta {
+  background: var(--cor-violeta);
+  color: var(--cor-papel);
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--raio-pill);
+}
+
+/* Selecionado dentro de .nav__lista para vencer a especificidade de
+   ".nav__link:hover" sem precisar de !important */
+.nav__lista .nav__link--cta:hover {
+  background: var(--cor-tinta);
+  color: var(--cor-papel);
+}
+
+/* Menu hambúrguer — escondido em telas grandes */
+.menu-toggle {
+  display: none;
+}
+
+.hamburguer {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 1.75rem;
+  height: 1.1rem;
+  cursor: pointer;
+  z-index: 200;
+}
+
+.hamburguer span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--cor-tinta);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+
+/* ============================================================
+   6. HOME / HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  padding: var(--espaco-xl) 0 var(--espaco-lg);
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(74, 58, 255, 0.12), transparent 45%),
+    radial-gradient(circle at 10% 80%, rgba(255, 91, 57, 0.10), transparent 40%);
+}
+
+/* Marcas de canto (crosshairs) — referência a artboards de softwares de design */
+.hero__marca-canto {
+  position: absolute;
+  font-family: var(--fonte-mono);
+  color: var(--cor-tinta-suave);
+  font-size: 1.1rem;
+  opacity: 0.5;
+}
+
+.hero__marca-canto--tl { top: 1.5rem; left: clamp(1.25rem, 4vw, 3rem); }
+.hero__marca-canto--tr { top: 1.5rem; right: clamp(1.25rem, 4vw, 3rem); }
+.hero__marca-canto--bl { bottom: 1.5rem; left: clamp(1.25rem, 4vw, 3rem); }
+.hero__marca-canto--br { bottom: 1.5rem; right: clamp(1.25rem, 4vw, 3rem); }
+
+.hero__container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espaco-sm);
+}
+
+.hero__titulo {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  max-width: 20ch;
+}
+
+.hero__titulo-destaque {
+  color: var(--cor-violeta);
+  font-style: italic;
+}
+
+.hero__subtitulo {
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  color: var(--cor-tinta-suave);
+  max-width: 42rem;
+  margin-top: var(--espaco-xs);
+}
+
+.hero__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: var(--espaco-sm);
+}
+
+/* Estatísticas do hero — Flexbox */
+.hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-lg);
+  margin-top: var(--espaco-lg);
+  width: 100%;
+}
+
+.hero__stat-valor {
+  font-family: var(--fonte-display);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--cor-violeta);
+}
+
+.hero__stat-legenda {
+  font-size: 0.9rem;
+  color: var(--cor-tinta-suave);
+}
+
+
+/* ============================================================
+   7. SOBRE NÓS (CSS Grid + componente .cartao--valor)
+   ============================================================ */
+.sobre {
+  padding: var(--espaco-xl) 0;
+}
+
+.sobre__grade {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--espaco-lg);
+  align-items: start;
+}
+
+.sobre__paragrafo {
+  color: var(--cor-tinta-suave);
+  margin-bottom: var(--espaco-sm);
+  max-width: 40em;
+}
+
+.sobre__valores {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+}
+
+
+/* ============================================================
+   8. SERVIÇOS (CSS Grid + componente .cartao--servico)
+   ============================================================ */
+.servicos {
+  padding: var(--espaco-xl) 0;
+  background: var(--cor-papel-alt);
+}
+
+.servicos__intro {
+  color: var(--cor-tinta-suave);
+  max-width: 40em;
+  margin-bottom: var(--espaco-lg);
+}
+
+/* Grid responsivo automático usando unidade "fr" e minmax() */
+.servicos__grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.5rem;
+}
+
+
+/* ============================================================
+   9. DEPOIMENTOS (Flexbox + componente .cartao--depoimento)
+   ============================================================ */
+.depoimentos {
+  padding: var(--espaco-xl) 0;
+  background: var(--cor-tinta);
+  color: var(--cor-papel);
+}
+
+.depoimentos__lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: var(--espaco-md);
+}
+
+
+/* ============================================================
+   10. CONTATO (CSS Grid + Flexbox + componente .campo)
+   ============================================================ */
+.contato {
+  padding: var(--espaco-xl) 0;
+}
+
+.contato__grade {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: var(--espaco-lg);
+  margin-top: var(--espaco-md);
+}
+
+.contato__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+}
+
+.contato__item {
+  font-size: 0.98rem;
+  color: var(--cor-tinta-suave);
+}
+
+.contato__item a:hover {
+  color: var(--cor-violeta);
+}
+
+.contato__rotulo {
+  display: block;
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cor-violeta);
+  margin-bottom: 0.15rem;
+}
+
+/* Formulário: Grid com duas colunas que colapsam em 1 no mobile */
+.contato__formulario {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+
+/* ============================================================
+   11. RODAPÉ (Flexbox)
+   ============================================================ */
+.rodape {
+  background: var(--cor-tinta);
+  color: rgba(242, 240, 234, 0.75);
+  padding: var(--espaco-md) 0;
+}
+
+.rodape__container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.rodape__redes {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.rodape__redes a:hover {
+  color: var(--cor-amarelo);
+}
+
+.rodape__copy {
+  font-size: 0.8rem;
+  width: 100%;
+  text-align: center;
+  opacity: 0.6;
+}
+
+
+/* ============================================================
+   12. ESTADOS CONTROLADOS PELO JAVASCRIPT
+   Classes ligadas/desligadas dinamicamente por js/classes.js.
+   ============================================================ */
+
+/* Trava o scroll da página quando o menu mobile está aberto */
+body.menu-aberto {
+  overflow: hidden;
+}
+
+/* Link ativo no menu, definido pela classe ScrollSpyNavegacao */
+.nav__link--ativo {
+  color: var(--cor-violeta);
+  font-weight: 700;
+}
+
+/* Feedback final de envio do formulário, definido pela classe FormularioContato */
+.formulario__feedback {
+  grid-column: 1 / -1;
+  font-size: 0.92rem;
+  min-height: 1.2em;
+}
+
+.formulario__feedback--sucesso {
+  color: var(--cor-sucesso);
+}
+
+.formulario__feedback--erro {
+  color: var(--cor-coral);
+}
+
+/* Botão flutuante "voltar ao topo", definido pela classe BotaoVoltarTopo */
+.botao-topo {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 2.9rem;
+  height: 2.9rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--cor-tinta);
+  color: var(--cor-papel);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.6rem);
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
+  z-index: 120;
+}
+
+.botao-topo--visivel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.botao-topo:hover {
+  background: var(--cor-violeta);
+}
+
+
+/* ============================================================
+   13. RESPONSIVIDADE — MEDIA QUERIES
+   ============================================================ */
+
+/* Tablets e telas médias (até 1024px) */
+@media (max-width: 64rem) {
+  .sobre__grade,
+  .contato__grade {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+}
+
+/* Tablets pequenos e menu hambúrguer (até 768px) */
+@media (max-width: 48rem) {
+  .hamburguer {
+    display: flex;
+  }
+
+  .nav {
+    position: fixed;
+    inset: 0 0 0 30%;
+    background: var(--cor-papel);
+    box-shadow: var(--sombra-menu);
+    transform: translateX(100%);
+    transition: transform 0.35s ease;
+    z-index: 150;
+    padding: 6rem 2rem 2rem;
+  }
+
+  .nav__lista {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.75rem;
+  }
+
+  /* Checkbox hack: exibe o menu quando o hambúrguer é marcado */
+  .menu-toggle:checked ~ .nav {
+    transform: translateX(0);
+  }
+
+  .menu-toggle:checked ~ .hamburguer span:nth-child(1) {
+    transform: translateY(0.4rem) rotate(45deg);
+  }
+  .menu-toggle:checked ~ .hamburguer span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle:checked ~ .hamburguer span:nth-child(3) {
+    transform: translateY(-0.4rem) rotate(-45deg);
+  }
+
+  .hero__stats {
+    gap: var(--espaco-md);
+  }
+
+  .contato__formulario {
+    grid-template-columns: 1fr;
+  }
+
+  .campo--largo {
+    grid-column: auto;
+  }
+}
+
+/* Celulares (até 480px) */
+@media (max-width: 30rem) {
+  :root {
+    --espaco-xl: 4.5rem;
+    --espaco-lg: 2.5rem;
+  }
+
+  .hero__titulo {
+    max-width: 100%;
+  }
+
+  .hero__acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .botao {
+    text-align: center;
+  }
+
+  .depoimentos__lista {
+    flex-direction: column;
+  }
+
+  .hero__marca-canto {
+    font-size: 0.9rem;
+  }
+}
+
+/* Respeita usuários que preferem menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
