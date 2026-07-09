@@ -1,0 +1,7 @@
+@use 'variaveis' as *;
+@use 'mixins' as *;
+/* Componentes */
+.botao{@include botao($cor-tinta);
+ &:hover{opacity:.9;}
+ &--grande{padding:$espaco $espaco*2;}
+}
