@@ -20,9 +20,7 @@
 <body>
 
   <!-- Régua decorativa no topo — elemento assinatura que remete a uma prancheta de design -->
-  <div class="regua" aria-hidden="true">
-    <div class="regua__trilho"></div>
-  </div>
+  <div class="regua" aria-hidden="true"></div>
 
   <!-- ===================== CABEÇALHO ===================== -->
   <header class="cabecalho">
@@ -43,11 +41,11 @@
       <!-- Menu de navegação -->
       <nav class="nav" id="nav-principal" aria-label="Navegação principal">
         <ul class="nav__lista">
-          <li><a href="#home" data-nav-link>Home</a></li>
-          <li><a href="#sobre" data-nav-link>Sobre nós</a></li>
-          <li><a href="#servicos" data-nav-link>Serviços</a></li>
-          <li><a href="#depoimentos" data-nav-link>Depoimentos</a></li>
-          <li><a href="#contato" class="nav__cta" data-nav-link>Falar com a gente</a></li>
+          <li><a href="#home" class="nav__link" data-nav-link>Home</a></li>
+          <li><a href="#sobre" class="nav__link" data-nav-link>Sobre nós</a></li>
+          <li><a href="#servicos" class="nav__link" data-nav-link>Serviços</a></li>
+          <li><a href="#depoimentos" class="nav__link" data-nav-link>Depoimentos</a></li>
+          <li><a href="#contato" class="nav__link nav__link--cta" data-nav-link>Falar com a gente</a></li>
         </ul>
       </nav>
 
@@ -68,7 +66,7 @@
 
         <h1 class="hero__titulo">
           Design que constrói
-          <span class="hero__titulo--destaque">marcas memoráveis.</span>
+          <span class="hero__titulo-destaque">marcas memoráveis.</span>
         </h1>
 
         <p class="hero__subtitulo">
@@ -83,16 +81,16 @@
 
         <dl class="hero__stats" id="hero-stats">
           <div class="hero__stat">
-            <dt><span class="contador" data-valor-final="120" data-sufixo="+">0</span></dt>
-            <dd>projetos entregues</dd>
+            <dt class="hero__stat-valor"><span class="contador" data-valor-final="120" data-sufixo="+">0</span></dt>
+            <dd class="hero__stat-legenda">projetos entregues</dd>
           </div>
           <div class="hero__stat">
-            <dt><span class="contador" data-valor-final="98" data-sufixo="%">0</span></dt>
-            <dd>de clientes satisfeitos</dd>
+            <dt class="hero__stat-valor"><span class="contador" data-valor-final="98" data-sufixo="%">0</span></dt>
+            <dd class="hero__stat-legenda">de clientes satisfeitos</dd>
           </div>
           <div class="hero__stat">
-            <dt><span class="contador" data-valor-final="9" data-sufixo="">0</span></dt>
-            <dd>anos de estúdio</dd>
+            <dt class="hero__stat-valor"><span class="contador" data-valor-final="9" data-sufixo="">0</span></dt>
+            <dd class="hero__stat-legenda">anos de estúdio</dd>
           </div>
         </dl>
       </div>
@@ -106,32 +104,39 @@
           <div class="sobre__texto">
             <p class="etiqueta etiqueta--escura">Quem somos</p>
             <h2 class="titulo-secao">Uma prancheta em comum entre estratégia e criatividade</h2>
-            <p>
+            <p class="sobre__paragrafo">
               A Agência Criativa Web nasceu da vontade de fazer design digital que resolve
               problemas de verdade. Não entregamos só telas bonitas: entregamos marcas com
               raciocínio por trás de cada pixel, cada cor e cada linha de código.
             </p>
-            <p>
+            <p class="sobre__paragrafo">
               Trabalhamos lado a lado com nossos clientes, do primeiro esboço no papel até o
               deploy final, garantindo que cada detalhe reflita a essência do negócio.
             </p>
           </div>
 
+          <!-- Componente reutilizável .cartao, variante --valor -->
           <div class="sobre__valores">
-            <article class="valor">
-              <span class="valor__icone" aria-hidden="true">◐</span>
-              <h3>Inovação</h3>
-              <p>Buscamos sempre a solução mais atual, sem perder a essência do projeto.</p>
+            <article class="cartao cartao--valor">
+              <span class="cartao__icone cartao__icone--valor" aria-hidden="true">◐</span>
+              <div>
+                <h3 class="cartao__titulo">Inovação</h3>
+                <p class="cartao__texto">Buscamos sempre a solução mais atual, sem perder a essência do projeto.</p>
+              </div>
             </article>
-            <article class="valor">
-              <span class="valor__icone" aria-hidden="true">◇</span>
-              <h3>Colaboração</h3>
-              <p>Nenhum grande projeto nasce sozinho. Construímos junto com quem confia em nós.</p>
+            <article class="cartao cartao--valor">
+              <span class="cartao__icone cartao__icone--valor" aria-hidden="true">◇</span>
+              <div>
+                <h3 class="cartao__titulo">Colaboração</h3>
+                <p class="cartao__texto">Nenhum grande projeto nasce sozinho. Construímos junto com quem confia em nós.</p>
+              </div>
             </article>
-            <article class="valor">
-              <span class="valor__icone" aria-hidden="true">▲</span>
-              <h3>Excelência</h3>
-              <p>Cuidamos de cada detalhe como se fosse a vitrine da nossa própria marca.</p>
+            <article class="cartao cartao--valor">
+              <span class="cartao__icone cartao__icone--valor" aria-hidden="true">▲</span>
+              <div>
+                <h3 class="cartao__titulo">Excelência</h3>
+                <p class="cartao__texto">Cuidamos de cada detalhe como se fosse a vitrine da nossa própria marca.</p>
+              </div>
             </article>
           </div>
 
@@ -149,48 +154,49 @@
         </p>
 
         <!-- CSS Grid: layout responsivo com colunas em "fr" -->
+        <!-- Componente reutilizável .cartao, variante --servico -->
         <div class="servicos__grade">
 
-          <article class="servico-card">
-            <span class="servico-card__numero">01</span>
-            <span class="servico-card__icone" aria-hidden="true">✎</span>
-            <h3>Design Gráfico</h3>
-            <p>Identidade visual, materiais impressos e digitais com consistência em cada peça.</p>
+          <article class="cartao cartao--servico">
+            <span class="cartao__numero">01</span>
+            <span class="cartao__icone cartao__icone--servico" aria-hidden="true">✎</span>
+            <h3 class="cartao__titulo">Design Gráfico</h3>
+            <p class="cartao__texto">Identidade visual, materiais impressos e digitais com consistência em cada peça.</p>
           </article>
 
-          <article class="servico-card">
-            <span class="servico-card__numero">02</span>
-            <span class="servico-card__icone" aria-hidden="true">⌘</span>
-            <h3>Desenvolvimento Web</h3>
-            <p>Sites e sistemas rápidos, responsivos e construídos com código limpo e escalável.</p>
+          <article class="cartao cartao--servico">
+            <span class="cartao__numero">02</span>
+            <span class="cartao__icone cartao__icone--servico" aria-hidden="true">⌘</span>
+            <h3 class="cartao__titulo">Desenvolvimento Web</h3>
+            <p class="cartao__texto">Sites e sistemas rápidos, responsivos e construídos com código limpo e escalável.</p>
           </article>
 
-          <article class="servico-card">
-            <span class="servico-card__numero">03</span>
-            <span class="servico-card__icone" aria-hidden="true">◆</span>
-            <h3>Branding &amp; Identidade</h3>
-            <p>Naming, logotipo e guidelines para marcas com personalidade e coerência visual.</p>
+          <article class="cartao cartao--servico">
+            <span class="cartao__numero">03</span>
+            <span class="cartao__icone cartao__icone--servico" aria-hidden="true">◆</span>
+            <h3 class="cartao__titulo">Branding &amp; Identidade</h3>
+            <p class="cartao__texto">Naming, logotipo e guidelines para marcas com personalidade e coerência visual.</p>
           </article>
 
-          <article class="servico-card">
-            <span class="servico-card__numero">04</span>
-            <span class="servico-card__icone" aria-hidden="true">▣</span>
-            <h3>UX/UI Design</h3>
-            <p>Interfaces intuitivas guiadas por pesquisa real com usuários, não por achismo.</p>
+          <article class="cartao cartao--servico">
+            <span class="cartao__numero">04</span>
+            <span class="cartao__icone cartao__icone--servico" aria-hidden="true">▣</span>
+            <h3 class="cartao__titulo">UX/UI Design</h3>
+            <p class="cartao__texto">Interfaces intuitivas guiadas por pesquisa real com usuários, não por achismo.</p>
           </article>
 
-          <article class="servico-card">
-            <span class="servico-card__numero">05</span>
-            <span class="servico-card__icone" aria-hidden="true">↗</span>
-            <h3>Marketing Digital</h3>
-            <p>Estratégias de conteúdo e mídia paga para colocar sua marca no radar certo.</p>
+          <article class="cartao cartao--servico">
+            <span class="cartao__numero">05</span>
+            <span class="cartao__icone cartao__icone--servico" aria-hidden="true">↗</span>
+            <h3 class="cartao__titulo">Marketing Digital</h3>
+            <p class="cartao__texto">Estratégias de conteúdo e mídia paga para colocar sua marca no radar certo.</p>
           </article>
 
-          <article class="servico-card">
-            <span class="servico-card__numero">06</span>
-            <span class="servico-card__icone" aria-hidden="true">⚙</span>
-            <h3>SEO &amp; Performance</h3>
-            <p>Otimização técnica e de conteúdo para crescer no orgânico e carregar rápido.</p>
+          <article class="cartao cartao--servico">
+            <span class="cartao__numero">06</span>
+            <span class="cartao__icone cartao__icone--servico" aria-hidden="true">⚙</span>
+            <h3 class="cartao__titulo">SEO &amp; Performance</h3>
+            <p class="cartao__texto">Otimização técnica e de conteúdo para crescer no orgânico e carregar rápido.</p>
           </article>
 
         </div>
@@ -200,20 +206,21 @@
     <!-- ===================== DEPOIMENTOS ===================== -->
     <section id="depoimentos" class="depoimentos">
       <div class="container">
-        <p class="etiqueta">O que dizem sobre nós</p>
+        <p class="etiqueta etiqueta--inversa">O que dizem sobre nós</p>
         <h2 class="titulo-secao titulo-secao--clara">Depoimentos de quem já trabalhou com a gente</h2>
 
         <!-- Flexbox: cards de depoimento lado a lado, quebrando em telas menores -->
+        <!-- Componente reutilizável .cartao, variante --depoimento -->
         <div class="depoimentos__lista">
 
-          <blockquote class="depoimento">
-            <p class="depoimento__texto">
+          <blockquote class="cartao cartao--depoimento">
+            <p class="cartao__texto">
               “A Agência Criativa Web entendeu nossa marca melhor do que a gente mesmo.
               O site novo triplicou nossos pedidos de orçamento em dois meses.”
             </p>
-            <footer class="depoimento__autor">
+            <footer class="cartao__rodape">
               <img
-                class="depoimento__foto"
+                class="cartao__foto"
                 src="https://picsum.photos/seed/mariana/160/160"
                 srcset="https://picsum.photos/seed/mariana/80/80 80w,
                         https://picsum.photos/seed/mariana/160/160 160w,
@@ -222,20 +229,20 @@
                 alt="Foto de Mariana Souza"
                 loading="lazy" width="160" height="160">
               <div>
-                <cite>Mariana Souza</cite>
-                <span>Fundadora, Estúdio Verde</span>
+                <cite class="cartao__nome">Mariana Souza</cite>
+                <span class="cartao__cargo">Fundadora, Estúdio Verde</span>
               </div>
             </footer>
           </blockquote>
 
-          <blockquote class="depoimento">
-            <p class="depoimento__texto">
+          <blockquote class="cartao cartao--depoimento">
+            <p class="cartao__texto">
               “Processo transparente do início ao fim. Cada etapa foi explicada com clareza
               e o resultado final superou o briefing que demos.”
             </p>
-            <footer class="depoimento__autor">
+            <footer class="cartao__rodape">
               <img
-                class="depoimento__foto"
+                class="cartao__foto"
                 src="https://picsum.photos/seed/rafael/160/160"
                 srcset="https://picsum.photos/seed/rafael/80/80 80w,
                         https://picsum.photos/seed/rafael/160/160 160w,
@@ -244,20 +251,20 @@
                 alt="Foto de Rafael Nogueira"
                 loading="lazy" width="160" height="160">
               <div>
-                <cite>Rafael Nogueira</cite>
-                <span>CEO, Nogueira &amp; Cia</span>
+                <cite class="cartao__nome">Rafael Nogueira</cite>
+                <span class="cartao__cargo">CEO, Nogueira &amp; Cia</span>
               </div>
             </footer>
           </blockquote>
 
-          <blockquote class="depoimento">
-            <p class="depoimento__texto">
+          <blockquote class="cartao cartao--depoimento">
+            <p class="cartao__texto">
               “Time extremamente ágil e atento a detalhes. O novo branding deu uma cara
               completamente nova para a empresa, e os clientes notaram.”
             </p>
-            <footer class="depoimento__autor">
+            <footer class="cartao__rodape">
               <img
-                class="depoimento__foto"
+                class="cartao__foto"
                 src="https://picsum.photos/seed/juliana/160/160"
                 srcset="https://picsum.photos/seed/juliana/80/80 80w,
                         https://picsum.photos/seed/juliana/160/160 160w,
@@ -266,8 +273,8 @@
                 alt="Foto de Juliana Prado"
                 loading="lazy" width="160" height="160">
               <div>
-                <cite>Juliana Prado</cite>
-                <span>Head de Marketing, Nortis</span>
+                <cite class="cartao__nome">Juliana Prado</cite>
+                <span class="cartao__cargo">Head de Marketing, Nortis</span>
               </div>
             </footer>
           </blockquote>
@@ -286,21 +293,21 @@
 
           <!-- Informações de contato -->
           <div class="contato__info">
-            <ul>
-              <li>
+            <ul class="contato__lista">
+              <li class="contato__item">
                 <span class="contato__rotulo">Endereço</span>
                 Av. das Interfaces, 1024 — Sala 12<br>
                 São Paulo, SP — Brasil
               </li>
-              <li>
+              <li class="contato__item">
                 <span class="contato__rotulo">Telefone</span>
                 <a href="tel:+551140028922">(11) 4002-8922</a>
               </li>
-              <li>
+              <li class="contato__item">
                 <span class="contato__rotulo">E-mail</span>
                 <a href="mailto:ola@agenciacriativaweb.com.br">ola@agenciacriativaweb.com.br</a>
               </li>
-              <li>
+              <li class="contato__item">
                 <span class="contato__rotulo">Horário</span>
                 Segunda a sexta, 9h às 18h
               </li>
@@ -310,27 +317,27 @@
           <!-- Formulário de contato -->
           <form class="contato__formulario" id="formulario-contato" action="#" method="post" novalidate>
             <div class="campo">
-              <label for="nome">Nome</label>
-              <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required minlength="2">
+              <label for="nome" class="campo__rotulo">Nome</label>
+              <input class="campo__entrada" type="text" id="nome" name="nome" placeholder="Seu nome completo" required minlength="2">
               <span class="campo__erro" data-erro-para="nome"></span>
             </div>
 
             <div class="campo">
-              <label for="email">E-mail</label>
-              <input type="email" id="email" name="email" placeholder="voce@email.com" required>
+              <label for="email" class="campo__rotulo">E-mail</label>
+              <input class="campo__entrada" type="email" id="email" name="email" placeholder="voce@email.com" required>
               <span class="campo__erro" data-erro-para="email"></span>
             </div>
 
             <div class="campo campo--largo">
-              <label for="mensagem">
+              <label for="mensagem" class="campo__rotulo">
                 Mensagem
                 <span class="campo__contador" id="contador-mensagem">0/500</span>
               </label>
-              <textarea id="mensagem" name="mensagem" rows="5" maxlength="500" placeholder="Conte um pouco sobre o seu projeto..." required></textarea>
+              <textarea class="campo__entrada" id="mensagem" name="mensagem" rows="5" maxlength="500" placeholder="Conte um pouco sobre o seu projeto..." required></textarea>
               <span class="campo__erro" data-erro-para="mensagem"></span>
             </div>
 
-            <button type="submit" class="botao botao--primario campo--largo">Enviar mensagem</button>
+            <button type="submit" class="botao botao--primario botao--formulario campo--largo">Enviar mensagem</button>
 
             <p class="formulario__feedback" id="formulario-feedback" role="status" aria-live="polite"></p>
           </form>
@@ -344,9 +351,9 @@
   <!-- ===================== RODAPÉ ===================== -->
   <footer class="rodape">
     <div class="container rodape__container">
-      <div class="logo logo--rodape">
+      <div class="logo">
         <span class="logo__marca">ACW</span>
-        <span class="logo__nome">Agência Criativa Web</span>
+        <span class="logo__nome logo__nome--rodape">Agência Criativa Web</span>
       </div>
 
       <ul class="rodape__redes">

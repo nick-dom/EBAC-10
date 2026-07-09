@@ -65,7 +65,7 @@ export class ScrollSpyNavegacao {
   _marcarLinkAtivo(idSecao) {
     this.links.forEach((link) => {
       const alvo = link.getAttribute('href') === `#${idSecao}`;
-      link.classList.toggle('ativo', alvo);
+      link.classList.toggle('nav__link--ativo', alvo);
     });
   }
 
@@ -155,7 +155,7 @@ export class FormularioContato {
 
   _mostrarErro(campo, mensagem) {
     const alvo = this.formulario.querySelector(`[data-erro-para="${campo.id}"]`);
-    campo.classList.toggle('campo--invalido', Boolean(mensagem));
+    campo.classList.toggle('campo__entrada--invalido', Boolean(mensagem));
     if (alvo) alvo.textContent = mensagem || '';
   }
 
